@@ -1,25 +1,26 @@
 ﻿
-angular.module('myApp').factory('dealersService', dealersService);
+angular.module('myApp').factory('dealersService', ['$http', dealersService]);
 
-function dealersService() {
+function dealersService($http) {
 
     var service = {
-        dealers: getDealers,
-        dealerCountries: getDealerCountries
+        getDealers: getDealers
     }
     return service;
 
     // ---------------------------------------------------------
 
-    function getDealers() {
-        return [
-            { name: "Jørgen", country: "DK" },
-            { name: "Göran", country: "SE" },
-            { name: "Jürgen", country: "SE" }
-        ];
-    }
+    function getDealers(callback) {
+        //return $http.get("/services/dealers.json");
 
-    function getDealerCountries() {
-        return ["DK", "SE", "DE"];
+        $http.get("/services/dealers.json").
+            success(function (data, status, headers, config) {
+                //$scope.data = data;
+                callback();
+            }).
+            error(function (data, status, headers, config) {
+                alert("Boooh :(");
+                // log error
+            });
     }
 }

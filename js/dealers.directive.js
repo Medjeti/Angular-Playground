@@ -1,7 +1,7 @@
 ﻿
-angular.module('myApp', []).directive('dealers', dealerDirective);
+angular.module('myApp', []).directive('dealers', ['dealersService', dealerDirective]);
 
-function dealerDirective() {
+function dealerDirective(dealersService) {
     var directive = {
         link: link,
         templateUrl: '/template/dealer.html',
@@ -12,6 +12,12 @@ function dealerDirective() {
     // ---------------------------------------------------------
 
     function link(scope, element, attrs) {
-        scope.dealers = [];
+        //scope.dealers = dealersService.getDealers(callback);
+        dealersService.getDealers(callback);
+
+        function callback(data) {
+            //scope.dealers = data;
+            alert("Så' der callback!");
+        }
     }
 };
